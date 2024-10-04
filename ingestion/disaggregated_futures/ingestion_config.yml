@@ -1,0 +1,14 @@
+read:
+  url: "https://www.cftc.gov/files/dea/history/fut_disagg_txt_{{ year }}.zip"
+  read_options:
+    na_values:
+      - "."
+
+write:
+  table_name: cot_historical_disaggregated
+  version: v1
+  write_options:
+    partition_cols:
+      - year
+    engine: pyarrow
+    existing_data_behavior: delete_matching
