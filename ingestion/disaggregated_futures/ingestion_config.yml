@@ -1,8 +1,8 @@
 read:
   url: "https://www.cftc.gov/files/dea/history/fut_disagg_txt_{{ year }}.zip"
-  read_options:
+  read_options: # could be replace with Spark read options/write options in below config
     na_values:
-      - "."
+      - "." # an assumption on my part that "." means missing or unavailable
 
 write:
   table_name: cot_historical_disaggregated
@@ -11,4 +11,6 @@ write:
     partition_cols:
       - year
     engine: pyarrow
+    # the option below appears similar to Sparks 'overwrite' mode
+    # see doc: https://arrow.apache.org/docs/python/generated/pyarrow.dataset.write_dataset.html
     existing_data_behavior: delete_matching
