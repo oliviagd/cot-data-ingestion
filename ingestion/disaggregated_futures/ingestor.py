@@ -7,7 +7,18 @@ from ingestion.util.util import load_yaml, to_snake_case
 
 
 class COTIngestor:
+    """
+    Ingests data from the annual Commitments of Traders report to a
+    local data lake on the users file system
+    """
+
     def __init__(self, year, data_lake_path=None):
+        """
+        Args:
+            year (int) - year of data to ingest
+            data_lake_path (str) - root to local data lake. defaults to
+            currrent working dir
+        """
         self.data_lake_path = data_lake_path or os.getcwd()
         self.year = year
         self.setup()
@@ -15,9 +26,11 @@ class COTIngestor:
     # A few properties to enfore data lake naming conventions
     @property
     def data_lake_data_path(self):
+        """Root of local data lake path"""
         return os.path.join(self.data_lake_path, "data")
 
     def get_write_path(self):
+        """Write path"""
         table_name = self.config["write"]["table_name"]
         version = self.config["write"].get("version", "v1")
 
